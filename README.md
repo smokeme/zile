@@ -7,7 +7,7 @@ Extract API keys from file or url using by magic of python and regex.
 + For getting keys from file
 ```cat file | python3 zile.py```
 + For getting keys from all files under current dir
-```cat file | python3 zile.py --file```
+```python3 zile.py --file```
 + For getting keys from urls/domains
 ```cat urls | python3 zile.py --request```
 
