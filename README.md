@@ -12,6 +12,7 @@ Extract API keys from file or url using by magic of python and regex.
 ```cat urls | python3 zile.py --request```
 
 Output: `[serviceName] keyValue`
+For colored output use `--colored` parameter
 
 ### Todo
 + Add source of key/value
