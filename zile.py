@@ -104,9 +104,9 @@ elif "--request" in args: # if request parameter has given as argument
 elif "--help" in args: 
     try:
         print ("Usage:")
-        print ("For getting keys from file cat file | python3 zile.py")
-        print ("For getting keys from urls/domains cat urls | python3 zile.py --request")
-        print ("For getting keys from all files under current dir python3 zile.py --file")
+        print ("For getting keys from file: cat file | python3 zile.py")
+        print ("For getting keys from urls/domains: cat urls | python3 zile.py --request")
+        print ("For getting keys from all files under current dir:  python3 zile.py --file")
         print ("For colored output use --colored parameter")
     except UnicodeDecodeError as e:
         print("[error] EXCEPT FAIL.")
