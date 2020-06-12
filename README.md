@@ -10,9 +10,9 @@ Extract API keys from file or url using by magic of python and regex.
 ```python3 zile.py --file```
 + For getting keys from urls/domains
 ```cat urls | python3 zile.py --request```
-
++ For colored output use `--colored` parameter
 Output: `[serviceName] keyValue`
-For colored output use `--colored` parameter
+
 
 ### Todo
 + Add source of key/value
