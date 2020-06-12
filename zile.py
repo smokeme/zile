@@ -103,24 +103,15 @@ elif "--request" in args: # if request parameter has given as argument
             threadPool.submit(fromUrl,r)
     except UnicodeDecodeError as e:
         print("[error] binary files are not supported yet.")
-elif "--help" in args: 
+elif ("--help" in args) or ("-h" in args): 
     try:
         print ("Usage:")
         print ("For getting keys from file: cat file | python3 zile.py")
         print ("For getting keys from urls/domains: cat urls | python3 zile.py --request")
         print ("For getting keys from all files under current dir:  python3 zile.py --file")
         print ("For colored output use --colored parameter")
-    except UnicodeDecodeError as e:
-        print("[error] EXCEPT FAIL.")
-elif "-h" in args: 
-    try:
-        print ("Usage:")
-        print ("For getting keys from file: cat file | python3 zile.py")
-        print ("For getting keys from urls/domains: cat urls | python3 zile.py --request")
-        print ("For getting keys from all files under current dir: python3 zile.py --file")
-        print ("For colored output use --colored parameter")
-    except UnicodeDecodeError as e:
-        print("[error] EXCEPT FAIL.")
+    except Exception as e:
+        print("[error] got an exception")
 else: # if none of them has given
     try:
         extract(str(sys.stdin.read()))
