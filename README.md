@@ -19,5 +19,8 @@ For colored output use `--colored` parameter
 + Test all patterns and add more
 + Removing duplicate results
 
-### Issues / Pull Requests
-I'm waiting for your pull requests or bug reports impatiently. 
+### Collaborators
+|ID|Github|Twitter|
+| :------------: | :------------: | :------------: |
+|0|xyele|zeroxyele|
+|1|marcositu|artsweb|
