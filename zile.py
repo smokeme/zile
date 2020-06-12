@@ -114,7 +114,7 @@ def main(argv):
             print ("For getting keys from file cat file | python3 zile.py")
             print ("--request   For getting keys from urls/domains cat urls | python3 zile.py --request")
             print ("--file      For getting keys from all files under current dir python3 zile.py --file")
-            print ("--colored   ")
+            print ("--colored   For colored output use --colored parameter")
 
 if __name__ == "__main__":
    main(sys.argv[1:])
