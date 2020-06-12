@@ -1,5 +1,4 @@
 # github.com/xyele
-
 import os,sys,re,requests,random
 from termcolor import colored
 from concurrent.futures import ThreadPoolExecutor
@@ -18,6 +17,7 @@ patterns = {
 "slack_webhook": "https://hooks.slack.com/services/T[a-zA-Z0-9_]{8}/B[a-zA-Z0-9_]{8}/[a-zA-Z0-9_]{24}",
 "facebook_oauth": "[f|F][a|A][c|C][e|E][b|B][o|O][o|O][k|K].{0,30}['\"\\s][0-9a-f]{32}['\"\\s]",
 "twitter_oauth": "[t|T][w|W][i|I][t|T][t|T][e|E][r|R].{0,30}['\"\\s][0-9a-zA-Z]{35,44}['\"\\s]",
+"twitter_access_token": "[t|T][w|W][i|I][t|T][t|T][e|E][r|R].*[1-9][0-9]+-[0-9a-zA-Z]{40}",
 "heroku_api": "[h|H][e|E][r|R][o|O][k|K][u|U].{0,30}[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}",
 "mailgun_api": "key-[0-9a-zA-Z]{32}",
 "mailchamp_api": "[0-9a-f]{32}-us[0-9]{1,2}",
@@ -41,7 +41,13 @@ patterns = {
 "stripe_restricted_api": "rk_live_[0-9a-zA-Z]{24}",
 "github_access_token": "[a-zA-Z0-9_-]*:[a-zA-Z0-9_\\-]+@github\\.com*",
 "private_ssh_key": "-----BEGIN PRIVATE KEY-----[a-zA-Z0-9\\S]{100,}-----END PRIVATE KEY-----",
-"private_rsa_key": "-----BEGIN RSA PRIVATE KEY-----[a-zA-Z0-9\\S]{100,}-----END RSA PRIVATE KEY-----"
+"private_rsa_key": "-----BEGIN RSA PRIVATE KEY-----[a-zA-Z0-9\\S]{100,}-----END RSA PRIVATE KEY-----",
+"gpg_private_key_block": "-----BEGIN PGP PRIVATE KEY BLOCK-----",
+"generic_api_key": "[a|A][p|P][i|I][_]?[k|K][e|E][y|Y].*['|\"][0-9a-zA-Z]{32,45}['|\"]",
+"generic_secret": "[s|S][e|E][c|C][r|R][e|E][t|T].*['|\"][0-9a-zA-Z]{32,45}['|\"]",
+"ip_address": "(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])",
+"linkFinder": "(?:\"|')(((?:[a-zA-Z]{1,10}:\/\/|\/\/)[^\"'\/]{1,}\\.[a-zA-Z]{2,}[^\"']{0,})|((?:\/|\\.\\.\/|\\.\/)[^\"'><,;| *()(%%$^\/\\\\\\[\\]][^\"'><,;|()]{1,})|([a-zA-Z0-9_\\-\/]{1,}\/[a-zA-Z0-9_\\-\/]{1,}\\.(?:[a-zA-Z]{1,4}|action)(?:[\\?|#][^\"|']{0,}|))|([a-zA-Z0-9_\\-\/]{1,}\/[a-zA-Z0-9_\\-\/]{3,}(?:[\\?|#][^\"|']{0,}|))|([a-zA-Z0-9_\\-]{1,}\\.(?:php|asp|aspx|jsp|json|action|html|js|txt|xml)(?:[\\?|#][^\"|']{0,}|)))(?:\"|')",
+"password_in_url": "[a-zA-Z]{3,10}://[^/\\s:@]{3,20}:[^/\\s:@]{3,20}@.{1,100}[\"'\\s]"
 }
 patterns = list(zip(patterns.keys(), patterns.values()))
 # Base Variables
@@ -49,7 +55,9 @@ patterns = list(zip(patterns.keys(), patterns.values()))
 def request(url):
     try:
         headers = {"User-Agent":settings["requestUA"]} # define http request headers as dictionary
-        return requests.get(url,timeout=settings["requestTimeout"]).text # send get request using by requests library
+        response = requests.get(url,timeout=settings["requestTimeout"])
+        print("[+] " + url)
+        return response.text
     except Exception as e:
         return ""
 def printResult(x,y):
@@ -82,7 +90,8 @@ if "--file" in args: # if file parameter has given as argument
         totalFiles+=tempFiles # and add them to totalFiles array
     for file in totalFiles: # for each files
         try:
-            read = open(file, "rb", encoding='utf-8').read() # read them
+            read = open(file, "r", encoding='utf-8').read() # read them
+            print ("[+] " + file)
             extract(read) # and call extract function
         except Exception: # if it gives error
             pass # just ignore it
@@ -94,6 +103,24 @@ elif "--request" in args: # if request parameter has given as argument
             threadPool.submit(fromUrl,r)
     except UnicodeDecodeError as e:
         print("[error] binary files are not supported yet.")
+elif "--help" in args: 
+    try:
+        print ("Usage:")
+        print ("For getting keys from file: cat file | python3 zile.py")
+        print ("For getting keys from urls/domains: cat urls | python3 zile.py --request")
+        print ("For getting keys from all files under current dir:  python3 zile.py --file")
+        print ("For colored output use --colored parameter")
+    except UnicodeDecodeError as e:
+        print("[error] EXCEPT FAIL.")
+elif "-h" in args: 
+    try:
+        print ("Usage:")
+        print ("For getting keys from file: cat file | python3 zile.py")
+        print ("For getting keys from urls/domains: cat urls | python3 zile.py --request")
+        print ("For getting keys from all files under current dir: python3 zile.py --file")
+        print ("For colored output use --colored parameter")
+    except UnicodeDecodeError as e:
+        print("[error] EXCEPT FAIL.")
 else: # if none of them has given
     try:
         extract(str(sys.stdin.read()))
