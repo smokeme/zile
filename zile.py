@@ -1,5 +1,4 @@
 # github.com/xyele
-#!/usr/bin/python3
 import os,sys,re,requests,random
 from termcolor import colored
 from concurrent.futures import ThreadPoolExecutor
@@ -110,10 +109,12 @@ def main(argv):
                 extract(str(sys.stdin.read()))
             except UnicodeDecodeError as e:
                 print("[error] binary files are not supported yet.")
-    else:
-            print ("--request   parameter has given as argument")
-            print ("--file      file parameter has given as argument")
-            print ("--colored   parameter has given as argument")
+    else:   
+            print ("Usage:")
+            print ("For getting keys from file cat file | python3 zile.py")
+            print ("--request   For getting keys from urls/domains cat urls | python3 zile.py --request")
+            print ("--file      For getting keys from all files under current dir python3 zile.py --file")
+            print ("--colored   ")
 
 if __name__ == "__main__":
    main(sys.argv[1:])
