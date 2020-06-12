@@ -55,7 +55,9 @@ patterns = list(zip(patterns.keys(), patterns.values()))
 def request(url):
     try:
         headers = {"User-Agent":settings["requestUA"]} # define http request headers as dictionary
-        return requests.get(url,timeout=settings["requestTimeout"]).text # send get request using by requests library
+        response = requests.get(url,timeout=settings["requestTimeout"])
+        print("[+] " + url)
+        return response.text
     except Exception as e:
         return ""
 def printResult(x,y):
@@ -113,9 +115,9 @@ elif "--help" in args:
 elif "-h" in args: 
     try:
         print ("Usage:")
-        print ("For getting keys from file cat file | python3 zile.py")
-        print ("For getting keys from urls/domains cat urls | python3 zile.py --request")
-        print ("For getting keys from all files under current dir python3 zile.py --file")
+        print ("For getting keys from file: cat file | python3 zile.py")
+        print ("For getting keys from urls/domains: cat urls | python3 zile.py --request")
+        print ("For getting keys from all files under current dir: python3 zile.py --file")
         print ("For colored output use --colored parameter")
     except UnicodeDecodeError as e:
         print("[error] EXCEPT FAIL.")
