@@ -88,7 +88,8 @@ if "--file" in args: # if file parameter has given as argument
         totalFiles+=tempFiles # and add them to totalFiles array
     for file in totalFiles: # for each files
         try:
-            read = open(file, "rb", encoding='utf-8').read() # read them
+            read = open(file, "r", encoding='utf-8').read() # read them
+            print (file)
             extract(read) # and call extract function
         except Exception: # if it gives error
             pass # just ignore it
@@ -123,5 +124,3 @@ else: # if none of them has given
         extract(str(sys.stdin.read()))
     except UnicodeDecodeError as e:
         print("[error] binary files are not supported yet.")
-
-
