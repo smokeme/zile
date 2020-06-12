@@ -89,7 +89,7 @@ if "--file" in args: # if file parameter has given as argument
     for file in totalFiles: # for each files
         try:
             read = open(file, "r", encoding='utf-8').read() # read them
-            print (file)
+            print ("[+] " + file)
             extract(read) # and call extract function
         except Exception: # if it gives error
             pass # just ignore it
