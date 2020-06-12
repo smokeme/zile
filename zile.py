@@ -7,7 +7,6 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 def main(argv):
-    if len(sys.argv)>=2:
         # Base Variables
         colors = ["red","green","yellow","blue","magenta","cyan","white"]
         settings = {
@@ -104,17 +103,21 @@ def main(argv):
                     threadPool.submit(fromUrl,r)
             except UnicodeDecodeError as e:
                 print("[error] binary files are not supported yet.")
+
+        elif "--help" in args: 
+            try:
+                print ("Usage:")
+                print ("For getting keys from file cat file | python3 zile.py")
+                print ("--request   For getting keys from urls/domains cat urls | python3 zile.py --request")
+                print ("--file      For getting keys from all files under current dir python3 zile.py --file")
+                print ("--colored   For colored output use --colored parameter")
+
         else: # if none of them has given
             try:
                 extract(str(sys.stdin.read()))
             except UnicodeDecodeError as e:
                 print("[error] binary files are not supported yet.")
-    else:   
-            print ("Usage:")
-            print ("For getting keys from file cat file | python3 zile.py")
-            print ("--request   For getting keys from urls/domains cat urls | python3 zile.py --request")
-            print ("--file      For getting keys from all files under current dir python3 zile.py --file")
-            print ("--colored   For colored output use --colored parameter")
+
 
 if __name__ == "__main__":
-   main(sys.argv[1:])
+   main()
